@@ -31,7 +31,7 @@ void connect_esp();
 
 EventGroupHandle_t eventgroupvariable;
 espWiFiConnect wificonnect;
-
+http_Client http;
 void app_main(void)
 {
   // return; //endless loop killer
@@ -45,6 +45,7 @@ void app_main(void)
   // Connection Phase
   wificonnect.conn_WiFi();
 
+  http.init_http();
 }
 
 
