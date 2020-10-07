@@ -13,15 +13,15 @@
 class espWiFiConnect
 {
 public:
-  /**
+    /**
   * @brief Deze functie initialiseerd de connectie en verbind met de event handler
   * 
   * @note heeft geen parameters, moet alleen aangeroepen worden voor config_WiFi
   * 
   * 
   */
-  void init_WiFi();
-  /**
+    void init_WiFi();
+    /**
  * @brief      Deze functie is om de wifi ssid in te stellen samen met het wachtwoord
  * 
  * @note       Invullen als string: config_WiFi("JouwString", "JouwString")
@@ -32,13 +32,13 @@ public:
  *  - ESP_OK on successful
  *  - ESP_FAIL on error
  */
-  void config_WiFi(const char *ssid, const char *pw);
+    void config_WiFi(const char *ssid, const char *pw);
 
-  /**
+    /**
    * @brief Deze functie start de wifi en wacht tot de connectie weer synchroon loopt met het proces
    *        , daarna verwijderd hij de registraties van de initialisatie en print hij een bevestiging.
    * 
    * 
    */
-  void conn_WiFi();
+    void conn_WiFi();
 };

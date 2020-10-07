@@ -33,33 +33,22 @@ void connect_esp();
 
 std::string temperatureValue;
 std::string humidityValue;
-EventGroupHandle_t eventgroupvariable;
 espWiFiConnect wificonnect;
 http_Client http;
 sensor Sensor;
 
 void app_main(void)
 {
-    //endless loop killer
-
     init_NVS();
 
-    // Init Phase
-    wificonnect.init_WiFi();
-    // Configuration Phase
     wificonnect.config_WiFi("ESP", "Welkom@67");
-    // Connection Phase
-    wificonnect.conn_WiFi();
 
-    //Sensor.sensorRead(humidityValue, temperatureValue);
-    const char *humValChar = "25.30";//humidityValue.c_str();
-    const char *tempValChar = "25.30";//temperatureValue.c_str();
+    const char *humValChar = "23.40";  //Op het moment dat de sensor uitgelezen kan worden: humidityValue.c_str();
+    const char *tempValChar = "23.40"; //Op het moment dat de sensor uitgelezen kan worden: temperatureValue.c_str();
     const char *strurl = "http://173.249.25.181/weatherStation/measurement.php?humidity=%s&temperature=%s";
     char buffer[256];
     sprintf(buffer, strurl, humValChar, tempValChar);
     http.http_handle(buffer);
-
-    //http.http_handle("http://173.249.25.181/weatherStation/measurement.php?humidity=20&temperature=30");
 }
 
 void init_NVS()

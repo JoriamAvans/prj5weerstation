@@ -3,7 +3,7 @@
 static const char *TAG = "MyModule";
 int errCheck = 0;
 int loopArg = 0;
-void http_Client::http_handle(const char* urlArg)
+void http_Client::http_handle(const char *urlArg)
 {
     //esp_http_client_init();
     /* 
@@ -28,20 +28,20 @@ void http_Client::http_handle(const char* urlArg)
     while (loopArg == 0)
     {
         esp_http_client_config_t config = {
-            .url = urlArg, .skip_cert_common_name_check = true,
+            .url = urlArg,
+            .skip_cert_common_name_check = true,
         };
-        
+
         esp_http_client_handle_t client = esp_http_client_init(&config);
         esp_err_t err = esp_http_client_perform(client);
         int statusCode = esp_http_client_get_status_code(client);
 
-    
         if (err == ESP_OK)
         {
             ESP_LOGI(TAG, "Status = %d, content_length = %d\n",
                      esp_http_client_get_status_code(client),
                      esp_http_client_get_content_length(client));
-                     loopArg = 1;
+            loopArg = 1;
         }
 
         if (statusCode != 200 || statusCode != 302 || statusCode != 304)
