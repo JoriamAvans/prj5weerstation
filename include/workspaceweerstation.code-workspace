@@ -1,0 +1,19 @@
+{
+	"folders": [
+		{
+			"path": "..\\..\\..\\..\\..\\..\\Documents\\PlatformIO\\Projects\\ESP32_Weerstation"
+		},
+		{
+			"name": "ESP32_Weerstation_2",
+			"path": ".."
+		},
+		{
+			"path": "..\\.."
+		},
+		{
+			"name": "testing",
+			"path": "..\\..\\testing"
+		}
+	],
+	"settings": {}
+}
