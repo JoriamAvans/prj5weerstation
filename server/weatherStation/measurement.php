@@ -1,15 +1,27 @@
 <?php
+if(isset($_GET["temperature"]) && isset($_GET["humidity"])) {
+	$temperature = $_GET["temperature"];
+	$humidity = $_GET["humidity"];
+	
+	if(isset($_GET["timeSinceMeasurement"])) {
+		$timeSinceUpdate = $_GET["timeSinceMeasurement"];
+		$timestamp = time() - $timeSinceUpdate;
+	} else {
+		$timestamp = time();
+	}
+	http_response_code(200);
+	
+} else {
+	http_response_code(400);
+	exit("invalid request ERR_CODE(400)");
+}
 
-$temperature = $_GET["temperature"];
-$humidity = $_GET["humidity"];
-$timeSinceUpdate = $_GET["timeSinceMeasurement"];
-$timestamp = time() - $timeSinceUpdate;
 $mysqlDateTime = date("Y-m-d H:i:s", $timestamp);
 
-$servername = "localhost";
-$username = "weatherStationClient";
-$password = "prj5weatherStation";
-$dbname = "prj5weerstation";
+$servername = "databases.aii.avans.nl";
+$username = "hkuipers1";
+$password = "Ab12345";
+$dbname = "hkuipers1_db";
 
 //start connection
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -24,7 +36,7 @@ echo 'humidity:    '. $humidity . "<br>";
 echo 'time:        '. $timestamp . "<br>";
 
 $sql = "INSERT INTO weatherStationMeasurements (humidity, temperature, timestamp)
-VALUES ('" . $temperature . "', '" . $humidity . "', '" . $mysqlDateTime . "')";
+VALUES ('" . $humidity . "', '" . $temperature . "', '" . $mysqlDateTime . "')";
 
 if ($conn->query($sql) === TRUE) {
   echo "New record created successfully";
