@@ -15,5 +15,9 @@
 			"path": "..\\..\\testing"
 		}
 	],
-	"settings": {}
+	"settings": {
+		"files.associations": {
+			"xstring": "cpp"
+		}
+	}
 }

@@ -3,7 +3,7 @@
 static const char *TAG = "MyModule";
 int errCheck = 0;
 int loopArg = 0;
-void http_Client::init_http(const char *urlArg)
+void http_Client::init_http(char *urlArg)
 {
     //esp_http_client_init();
     /* 

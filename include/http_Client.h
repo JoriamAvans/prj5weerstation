@@ -9,6 +9,6 @@ public:
      * 
      * @param urlArg De url waar mee verbonden dient te worden.
      */
-    void init_http(const char* urlArg);
+    void init_http(char* urlArg);
     
 };

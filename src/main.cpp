@@ -24,16 +24,23 @@ extern "C" void app_main();
 #include "lwip/err.h"
 #include "lwip/sys.h"
 
-
+#include "sensor.h"
+#include <string>
+#include <cstring>
 void init_NVS();
 
 void init_esp();
 void config_esp();
 void connect_esp();
 
+static char* temperatureValue = "";
+static char* humidityValue = "";
 EventGroupHandle_t eventgroupvariable;
 espWiFiConnect wificonnect;
 http_Client http;
+sensor Sensor;
+
+float* sensordata;
 void app_main(void)
 {
   //endless loop killer
@@ -47,7 +54,9 @@ void app_main(void)
   // Connection Phase
   wificonnect.conn_WiFi();
 
-  http.init_http("http://173.249.25.181/weatherStation/measurement.php?humidity=80.0&temperature=6.0");
+   sensordata = Sensor.sensorRead(humidityValue, temperatureValue);
+  std::string strurl = "http://173.249.25.181/weatherStation/measurement.php?humidity=" + humidityValue + "&temperature=" + temperatureValue;
+  http.init_http(strurl);
 }
 
 void init_NVS()
