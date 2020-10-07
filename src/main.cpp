@@ -23,6 +23,8 @@ extern "C" void app_main();
 
 #include "lwip/err.h"
 #include "lwip/sys.h"
+
+
 void init_NVS();
 
 void init_esp();
@@ -41,11 +43,11 @@ void app_main(void)
   // Init Phase
   wificonnect.init_WiFi();
   // Configuration Phase
-  wificonnect.config_WiFi("ESP32", "harryhotbox");
+  wificonnect.config_WiFi("ESP32", "abc12345");
   // Connection Phase
   wificonnect.conn_WiFi();
 
-  http.init_http("");
+  http.init_http("http://173.249.25.181/weatherStation/measurement.php?humidity=80.0&temperature=6.0");
 }
 
 void init_NVS()
