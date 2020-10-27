@@ -2,21 +2,39 @@
 
 static void Event_Handler(void *arg, esp_event_base_t event_base, int32_t event_id, void *event_data);
 int positief_signaal = 0;
+int connection_status = 1;
+int connection_watchdog = 0;
+const char *Wifi_ssid;
+const char *Wifi_pw;
 
-void espWiFiConnect::conn_WiFi()
+bool espWiFiConnect::conn_WiFi()
 {
     esp_wifi_start();
+
     while (positief_signaal != 1)
     {
         //Buffer om synchronisatie toe te laten.
+        if (connection_watchdog >= 100) {
+            printf("Connection watchdog triggered, aborting..\n");
+            return false;
+        }
+        if (connection_status == 0) {
+            printf("Connection failed.\n");
+            return false;
+        }
+        vTaskDelay(10 / portTICK_RATE_MS);
     }
     esp_event_handler_unregister(IP_EVENT, IP_EVENT_STA_GOT_IP, &Event_Handler);
     esp_event_handler_unregister(WIFI_EVENT, ESP_EVENT_ANY_ID, &Event_Handler);
     printf("Event handler unregistered succesfully.\n");
+    return true;
 }
 
-void espWiFiConnect::config_WiFi(const char *ssid, const char *pw)
+bool espWiFiConnect::config_WiFi(const char *ssid, const char *pw)
 {
+    Wifi_ssid = ssid;
+    Wifi_pw = pw;
+
     init_WiFi();
     esp_wifi_set_mode(WIFI_MODE_STA);
     wifi_config_t configSTA = {};
@@ -30,7 +48,7 @@ void espWiFiConnect::config_WiFi(const char *ssid, const char *pw)
     configSTA.sta.bssid_set = 0;
     configSTA.sta.channel = 0;
     esp_wifi_set_config(WIFI_IF_STA, &configSTA);
-    conn_WiFi();
+    return conn_WiFi();
 }
 
 void espWiFiConnect::init_WiFi()
@@ -48,6 +66,7 @@ void espWiFiConnect::init_WiFi()
 
 static void Event_Handler(void *arg, esp_event_base_t event_base, int32_t event_id, void *event_data)
 {
+    printf("Event handler called\n");
 
     if (WIFI_EVENT == event_base)
     {
@@ -57,14 +76,17 @@ static void Event_Handler(void *arg, esp_event_base_t event_base, int32_t event_
         }
         else if (event_id != WIFI_EVENT_STA_CONNECTED)
         {
-            printf("Connection failed...\nEvent ID: %d\n", event_id);
+            esp_wifi_disconnect();
+            esp_wifi_stop();
+            esp_wifi_deinit();
+            esp_netif_deinit();
+            connection_status = 0;
+            return;
         }
-        printf("Event ID: %d\n", event_id);
     }
 
     if (event_base == IP_EVENT && event_id == IP_EVENT_STA_GOT_IP)
     {
         positief_signaal = 1;
-        printf("Connection Established\n\n");
     }
 }

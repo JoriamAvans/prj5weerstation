@@ -46,7 +46,6 @@ void http_Client::http_handle(const char *urlArg)
 
         if (statusCode != 200 || statusCode != 302 || statusCode != 304)
         {
-            printf("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA %d", statusCode);
             if (errCheck > 4)
             {
                 printf("Connection to server failed. Quitting...\n");

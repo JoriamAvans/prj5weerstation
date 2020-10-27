@@ -32,7 +32,7 @@ public:
  *  - ESP_OK on successful
  *  - ESP_FAIL on error
  */
-    void config_WiFi(const char *ssid, const char *pw);
+    bool config_WiFi(const char *ssid, const char *pw);
 
     /**
    * @brief Deze functie start de wifi en wacht tot de connectie weer synchroon loopt met het proces
@@ -40,5 +40,5 @@ public:
    * 
    * 
    */
-    void conn_WiFi();
+    bool conn_WiFi();
 };
